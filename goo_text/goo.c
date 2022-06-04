@@ -22,9 +22,9 @@
 
 #ifdef GEGL_PROPERTIES
 
-property_color (color, _("Color"), "#f7dc00")
+property_color (color, _("Color"), "#00f73b")
     description (_("The color to paint over the input"))
-    ui_meta     ("role", "color-primary")
+
 
 
 
@@ -75,9 +75,8 @@ property_int (box, _("Smooth"), 2)
    ui_range    (1, 2)
    ui_gamma   (1.5)
 
-property_color (color2, _("Color 2"), "#f7dc00")
+property_color (color2, _("Color 2"), "#00f73b")
     description (_("The color to paint over the input"))
-    ui_meta     ("role", "color-primary")
 
 
 
@@ -227,7 +226,7 @@ gegl_op_class_init (GeglOpClass *klass)
     "title",       _("Goo on Text"),
     "categories",  "Artistic",
     "reference-hash", "10gz1ak3aa10aavx65421xc254001b2ac",
-    "description", _("Put goo on text using GEGL "
+    "description", _("Put goo on text using GEGL. It is a strong recommendation that both colors are similar or the same "
                      ""),
     NULL);
 }

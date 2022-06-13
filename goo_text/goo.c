@@ -1,3 +1,4 @@
+
 /* This file is an image processing operation for GEGL
  *
  * GEGL is free software; you can redistribute it and/or
@@ -24,10 +25,6 @@
 
 property_color (color, _("Color"), "#00f73b")
     description (_("The color to paint over the input"))
-
-
-
-
 property_double (tile_size, _("Goo size"), 6.0)
     description (_("Average diameter of each tile (in pixels)"))
     value_range (3.40, 15.0)
@@ -77,9 +74,6 @@ property_int (box, _("Smooth"), 2)
 
 property_color (color2, _("Color 2"), "#00f73b")
     description (_("The color to paint over the input"))
-
-
-
 property_double (tile_size2, _("Goo size 2"), 6.9)
     description (_("Average diameter of each tile (in pixels)"))
     value_range (4.8, 8.0)
@@ -104,6 +98,15 @@ property_int (box2, _("Smooth"), 2)
    ui_range    (1, 2)
    ui_gamma   (1.5)
 
+property_double (bevel, _("Bevel external Goo"), 15.0)
+  value_range (0.0, 100.0)
+  ui_range (0.0, 100.0)
+  ui_gamma (1.5)
+
+property_double (bevel2, _("Bevel Goo on top"), 15.0)
+  value_range (0.0, 100.0)
+  ui_range (0.0, 100.0)
+  ui_gamma (1.5)
 
 
 
@@ -118,7 +121,7 @@ property_int (box2, _("Smooth"), 2)
 static void attach (GeglOperation *operation)
 {
   GeglNode *gegl = operation->node;
-  GeglNode *input, *output, *color, *color2, *atop, *over, *cubism, *median, *median2, *cubism2, *wind2, *alpha2, *box2, *light, *alpha, *box, *wind;
+  GeglNode *input, *output, *color, *color2, *atop, *over, *cubism, *median, *median2, *cubism2, *wind2, *alpha2, *box2, *light, *alpha, *box, *wind, *bevel, *bevel2;
 
 
   input    = gegl_node_get_input_proxy (gegl, "input");
@@ -184,11 +187,19 @@ static void attach (GeglOperation *operation)
                                   "operation", "gegl:hue-chroma",
                                   NULL);
 
+  bevel = gegl_node_new_child (gegl,
+                                  "operation", "gegl:mbd",
+                                  NULL);
+
+  bevel2 = gegl_node_new_child (gegl,
+                                  "operation", "gegl:mbd",
+                                  NULL);
+
 
 
  gegl_node_link_many (input, atop, over, output, NULL);
- gegl_node_link_many (input, color, cubism, wind, median, alpha, box, NULL);
- gegl_node_link_many (atop, color2, light, cubism2, wind2, median2, alpha2, box2, NULL);
+ gegl_node_link_many (input, color, cubism, wind, median, alpha, bevel, box, NULL);
+ gegl_node_link_many (atop, color2, light, cubism2, wind2, median2, alpha2, bevel2, box2, NULL);
 gegl_node_connect_from (atop, "aux", box, "output"); 
 gegl_node_connect_from (over, "aux", box2, "output"); 
 
@@ -208,6 +219,8 @@ gegl_node_connect_from (over, "aux", box2, "output");
   gegl_operation_meta_redirect (operation, "alpha", alpha, "value");
   gegl_operation_meta_redirect (operation, "box", box, "radius");
   gegl_operation_meta_redirect (operation, "box2", box2, "radius");
+  gegl_operation_meta_redirect (operation, "bevel", bevel, "radius2");
+  gegl_operation_meta_redirect (operation, "bevel2", bevel2, "radius2");
 
 
 }

@@ -52,7 +52,7 @@ property_enum (direction, _("Direction"),
 
 property_int (strength, _("Length of Goo trail"), 35)
  description (_("Higher values increase the magnitude of the effect"))
- value_range (1, 100)
+ value_range (1, 500)
 
 property_int  (median, _("Radius"), 3)
   value_range (3, 6)
@@ -162,10 +162,10 @@ static void attach (GeglOperation *operation)
 
 
   wind    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:wind",
+                                  "operation", "gegl:zzwind",
                                   NULL);
   wind2    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:wind",
+                                  "operation", "gegl:zzwind",
                                   NULL);
 
   alpha    = gegl_node_new_child (gegl,

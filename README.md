@@ -1,4 +1,5 @@
-![image preview](new_goo.png )
+![image preview](previewgoo.png )
+![image preview](final.png )
 # gegl-goo-on-text
 Gimp filter where GEGL puts goo on your text. It works great with my other text styling filters. On Windows and Mac you have to compile. On Linux just put the .so files in /gegl-0.4/plugins.
 

@@ -23,19 +23,20 @@
 
 #ifdef GEGL_PROPERTIES
 
-property_color (color, _("Color"), "#00f73b")
+property_color (color, _("Color of extenral goo"), "#00f73b")
     description (_("The color to paint over the input"))
-property_double (tile_size, _("Goo size"), 6.0)
+
+property_double (tile_size, _("Increase to coat text with Goo"), 6.0)
     description (_("Average diameter of each tile (in pixels)"))
     value_range (3.40, 15.0)
     ui_meta     ("unit", "pixel-distance")
 
-property_double (tile_saturation, _("Goo internal saturation"), 2.0)
+property_double (tile_saturation, _("External goo spread"), 2.0)
     description (_("Expand tiles by this amount"))
     value_range (2, 2.50)
 
 
-property_seed (seed, _("Random seed"), rand)
+property_seed (seed, _("Random seed for external goo"), rand)
 
 enum_start (gegl_wind1_direction)
   enum_value (GEGL_WIND_DIRECTION_LEFT1, "left", N_("Left"))
@@ -48,60 +49,69 @@ property_enum (direction, _("Direction"),
                GeglWindDirection1, gegl_wind1_direction,
                GEGL_WIND_DIRECTION_BOTTOM1)
   description (_("Direction of the effect"))
+    ui_meta     ("role", "output-extent")
 
 
-property_int (strength, _("Length of Goo trail"), 35)
+property_int (strength, _("Length of Goo drip"), 35)
  description (_("Higher values increase the magnitude of the effect"))
  value_range (1, 500)
 
-property_int  (median, _("Radius"), 3)
+property_int  (median, _("Radius of drip"), 3)
   value_range (3, 6)
   ui_range    (3, 6)
   ui_meta     ("unit", "pixel-distance")
   description (_("Neighborhood radius, a negative value will calculate with inverted percentiles"))
-
-property_double (alpha, _("Threshold"), 0.09)
-    value_range (00.1, 0.09)
-    ui_range    (-1, 2)
-    description(_("Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
-
-
-property_int (box, _("Smooth"), 2)
-   description(_("Radius of square pixel region, (width and height will be radius*2+1)"))
-   value_range (1, 2)
-   ui_range    (1, 2)
-   ui_gamma   (1.5)
-
-property_color (color2, _("Color 2"), "#00f73b")
-    description (_("The color to paint over the input"))
-property_double (tile_size2, _("Goo size 2"), 6.9)
-    description (_("Average diameter of each tile (in pixels)"))
-    value_range (4.8, 8.0)
-    ui_meta     ("unit", "pixel-distance")
-
-property_double (tile_saturation2, _("Goo internal saturation"), 1.1)
-    description (_("Expand tiles by this amount"))
-    value_range (1.0, 1.2)
-
-
-property_seed (seed2, _("Random seed"), rand2)
-
-property_int  (median2, _("Radius"), 3)
-  value_range (3, 6)
-  ui_range    (3, 6)
-  ui_meta     ("unit", "pixel-distance")
-  description (_("Neighborhood radius, a negative value will calculate with inverted percentiles"))
-
-property_int (box2, _("Smooth"), 2)
-   description(_("Radius of square pixel region, (width and height will be radius*2+1)"))
-   value_range (1, 2)
-   ui_range    (1, 2)
-   ui_gamma   (1.5)
 
 property_double (bevel, _("Bevel external Goo"), 15.0)
   value_range (0.0, 100.0)
   ui_range (0.0, 100.0)
   ui_gamma (1.5)
+
+
+property_double (alpha, _("Threshold"), 0.09)
+    value_range (00.1, 0.09)
+    ui_range    (-1, 2)
+    description(_("Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
+    ui_meta     ("role", "output-extent")
+
+
+property_int (box, _("Smooth goo on top"), 1)
+   description(_("Radius of square pixel region, (width and height will be radius*2+1)"))
+   value_range (1, 2)
+   ui_range    (1, 2)
+   ui_gamma   (1.5)
+    ui_meta     ("role", "output-extent")
+   
+
+property_color (color2, _("Goo on top color"), "#00f73b")
+    description (_("The color to paint over the input"))
+
+property_double (tile_size2, _("Goo on top size"), 5.2)
+    description (_("Average diameter of each tile (in pixels)"))
+    value_range (4.8, 8.0)
+    ui_meta     ("unit", "pixel-distance")
+
+property_double (tile_saturation2, _("Goo on top spread"), 1.1)
+    description (_("Expand tiles by this amount"))
+    value_range (1.0, 1.2)
+
+
+
+
+property_seed (seed2, _("Random seed for goo on top"), rand2)
+
+property_int  (median2, _("Radius for goo on top"), 3)
+  value_range (3, 6)
+  ui_range    (3, 6)
+  ui_meta     ("unit", "pixel-distance")
+  description (_("Neighborhood radius, a negative value will calculate with inverted percentiles"))
+
+property_int (box2, _("Smooth goo on top"), 2)
+   description(_("Radius of square pixel region, (width and height will be radius*2+1)"))
+   value_range (1, 2)
+   ui_range    (1, 2)
+   ui_gamma   (1.5)
+
 
 property_double (bevel2, _("Bevel Goo on top"), 15.0)
   value_range (0.0, 100.0)

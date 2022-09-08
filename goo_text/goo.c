@@ -131,7 +131,7 @@ property_double (bevel2, _("Bevel Goo on top"), 15.0)
 static void attach (GeglOperation *operation)
 {
   GeglNode *gegl = operation->node;
-  GeglNode *input, *output, *color, *color2, *atop, *over, *cubism, *median, *median2, *cubism2, *wind2, *alpha2, *box2, *light, *alpha, *box, *wind, *bevel, *bevel2;
+  GeglNode *input, *output, *color, *color2, *atop, *over, *cubism, *median, *median2, *multiply, *multiply2, *cubism2, *wind2, *alpha2, *box2, *light, *alpha, *box, *wind, *bevel, *bevel2;
 
 
   input    = gegl_node_get_input_proxy (gegl, "input");
@@ -175,7 +175,7 @@ static void attach (GeglOperation *operation)
                                   "operation", "gegl:zzwind",
                                   NULL);
   wind2    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:zzwind",
+                                  "operation", "gegl:wind",
                                   NULL);
 
   alpha    = gegl_node_new_child (gegl,
@@ -198,18 +198,31 @@ static void attach (GeglOperation *operation)
                                   NULL);
 
   bevel = gegl_node_new_child (gegl,
-                                  "operation", "gegl:mbd",
+                                  "operation", "gegl:bevel",
                                   NULL);
 
   bevel2 = gegl_node_new_child (gegl,
-                                  "operation", "gegl:mbd",
+                                  "operation", "gegl:bevel",
                                   NULL);
+
+  multiply = gegl_node_new_child (gegl,
+                                  "operation", "gegl:multiply",
+                                  NULL);
+
+  multiply2 = gegl_node_new_child (gegl,
+                                  "operation", "gegl:multiply",
+                                  NULL);
+
 
 
 
  gegl_node_link_many (input, atop, over, output, NULL);
- gegl_node_link_many (input, color, cubism, wind, median, alpha, bevel, box, NULL);
- gegl_node_link_many (atop, color2, light, cubism2, wind2, median2, alpha2, bevel2, box2, NULL);
+ gegl_node_link_many (input, color, cubism, wind, median, alpha, multiply, box, NULL);
+gegl_node_connect_from (multiply, "aux", bevel, "output"); 
+gegl_node_connect_from (multiply2, "aux", bevel2, "output"); 
+ gegl_node_link_many (alpha, bevel, NULL);
+ gegl_node_link_many (alpha2, bevel2, NULL);
+ gegl_node_link_many (atop, color2, light, cubism2, wind2, median2, alpha2, multiply2, box2, NULL);
 gegl_node_connect_from (atop, "aux", box, "output"); 
 gegl_node_connect_from (over, "aux", box2, "output"); 
 
@@ -229,8 +242,8 @@ gegl_node_connect_from (over, "aux", box2, "output");
   gegl_operation_meta_redirect (operation, "alpha", alpha, "value");
   gegl_operation_meta_redirect (operation, "box", box, "radius");
   gegl_operation_meta_redirect (operation, "box2", box2, "radius");
-  gegl_operation_meta_redirect (operation, "bevel", bevel, "radius2");
-  gegl_operation_meta_redirect (operation, "bevel2", bevel2, "radius2");
+  gegl_operation_meta_redirect (operation, "bevel", bevel, "bevel2");
+  gegl_operation_meta_redirect (operation, "bevel2", bevel2, "bevel2");
 
 
 }

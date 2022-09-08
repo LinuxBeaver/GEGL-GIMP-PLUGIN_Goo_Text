@@ -3,4 +3,5 @@
 # gegl-goo-on-text
 Gimp filter where GEGL puts goo on your text. It works great with my other text styling filters. On Windows and Mac you have to compile. On Linux just put the .so files in /gegl-0.4/plugins.
 
-Goo text has had an update on June 12 2022. It now requires building mbd (multiplcation of bevels depth) and zzwind. if you already have my custom mbd filter you are good and overwriting or having multiple copies of it should be fine. But please note that the updated version of GEGL mbd is hidden and will not show up anywhere in the menu.
+You must compile gegl:goo-text, gegl:ZZwind and gegl:bevel. ZZWind and Bevel are components of GEGL Goo Text and GEGL Goo Text will not work without them.
+GEGL Bevel is a bonus filter that comes with goo-text and a few other of my filters. If you already have GEGL in GEGL Plugins you do not need to recompile it. 

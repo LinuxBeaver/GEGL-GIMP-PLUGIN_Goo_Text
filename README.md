@@ -5,3 +5,16 @@ Gimp filter where GEGL puts goo on your text. It works great with my other text 
 
 You must compile gegl:goo-text, gegl:ZZwind and gegl:bevel. ZZWind and Bevel are components of GEGL Goo Text and GEGL Goo Text will not work without them.
 GEGL Bevel is a bonus filter that comes with goo-text and a few other of my filters. If you already have gegl:bevel in GEGL Plugins you do not need to recompile it. 
+
+
+
+## OS specific location to put GEGL Filter binaries 
+
+Windows
+ C:\\Users\<YOUR NAME>\AppData\Local\gegl-0.4\plug-ins
+ 
+ Linux 
+ /home/(USERNAME)/.local/share/gegl-0.4/plug-ins
+ 
+ Linux (Flatpak)
+ /home/(USERNAME)/.var/app/org.gimp.GIMP/data/gegl-0.4/plug-ins

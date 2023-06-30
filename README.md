@@ -6,6 +6,7 @@ GEGL Bevel is a bonus filter that comes with goo-text and a few other of my filt
 
 
 ![image preview](previewgoo.png )
+This is what the plugin looks like with modifications
 ![image preview](final.png )
 
 ## OS specific location to put GEGL Filter binaries 

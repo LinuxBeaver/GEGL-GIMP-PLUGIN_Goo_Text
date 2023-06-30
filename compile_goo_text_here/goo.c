@@ -18,6 +18,27 @@
  * 2022 Beaver goo text with GEGL
  */
 
+
+
+/* 
+
+GEGL Graph of Goo Text to test without installing.
+
+
+id=1 
+svg:dst-atop aux=[ ref=1 gegl:color-overlay value=#0b9500 cubism seed=13 tile-size=6 wind direction=bottom strength=80 median-blur radius=3 gimp:threshold-alpha value=0.09 box-blur radius=2  id=4 multiply aux=[ ref=4 lb:bevel ] ]
+
+
+id=2
+
+over aux=[ ref=2    gegl:color-overlay value=#0b9500 hue-chroma lightness=12 cubism seed=13 tile-size=11 tile-saturation=1.2 median-blur radius=3  box-blur radius=1 id=4 multiply aux=[ ref=4 lb:bevel ]  ]
+
+ */
+
+
+
+
+
 #include "config.h"
 #include <glib/gi18n-lib.h>
 
@@ -38,19 +59,6 @@ property_double (tile_saturation, _("External goo spread"), 2.0)
 
 property_seed (seed, _("Random seed for external goo"), rand)
 
-enum_start (gegl_wind1_direction)
-  enum_value (GEGL_WIND_DIRECTION_LEFT1, "left", N_("Left"))
-  enum_value (GEGL_WIND_DIRECTION_RIGHT1, "right", N_("Right"))
-  enum_value (GEGL_WIND_DIRECTION_TOP1, "top", N_("Top"))
-  enum_value (GEGL_WIND_DIRECTION_BOTTOM1, "bottom", N_("Bottom"))
-enum_end (GeglWindDirection1)
-
-property_enum (direction, _("Direction"),
-               GeglWindDirection1, gegl_wind1_direction,
-               GEGL_WIND_DIRECTION_BOTTOM1)
-  description (_("Direction of the effect"))
-    ui_meta     ("role", "output-extent")
-
 
 property_int (strength, _("Length of Goo drip"), 35)
  description (_("Higher values increase the magnitude of the effect"))
@@ -60,7 +68,7 @@ property_int  (median, _("Radius of drip"), 3)
   value_range (3, 6)
   ui_range    (3, 6)
   ui_meta     ("unit", "pixel-distance")
-  description (_("Neighborhood radius, a negative value will calculate with inverted percentiles"))
+  description (_("Median Blur Radius - Neighborhood radius, a negative value will calculate with inverted percentiles"))
 
 property_double (bevel, _("Bevel external Goo"), 15.0)
   value_range (0.0, 100.0)
@@ -68,31 +76,24 @@ property_double (bevel, _("Bevel external Goo"), 15.0)
   ui_gamma (1.5)
 
 
-property_double (alpha, _("Threshold"), 0.09)
+property_double (alpha, _("Threshold Alpha"), 0.09)
     value_range (00.1, 0.09)
     ui_range    (-1, 2)
-    description(_("Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
+    description(_("Threshold Alpha's Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
     ui_meta     ("role", "output-extent")
 
 
-property_int (box, _("Smooth goo on top"), 1)
-   description(_("Radius of square pixel region, (width and height will be radius*2+1)"))
-   value_range (1, 2)
-   ui_range    (1, 2)
-   ui_gamma   (1.5)
-    ui_meta     ("role", "output-extent")
-   
 
 property_color (color2, _("Goo on top color"), "#00f73b")
-    description (_("The color to paint over the input"))
+    description (_("The color to paint on the top goo"))
 
 property_double (tile_size2, _("Goo on top size"), 5.2)
-    description (_("Average diameter of each tile (in pixels)"))
+    description (_("Internal Cubism Tile Size for the goo on top"))
     value_range (4.8, 8.0)
     ui_meta     ("unit", "pixel-distance")
 
 property_double (tile_saturation2, _("Goo on top spread"), 1.1)
-    description (_("Expand tiles by this amount"))
+    description (_("Expand cubism tiles by this amount"))
     value_range (1.0, 1.2)
 
 
@@ -172,8 +173,12 @@ static void attach (GeglOperation *operation)
 
 
   wind    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:zzwind",
+                                  "operation", "gegl:zzwind", "direction", 3,
                                   NULL);
+
+/* This is a hidden operation of mine that allows gegl:wind to go up to 500. Where in default it is locked at 100. This is 
+one of the few hidden operations that still remain. The direction number is calling the wind to go down */
+
   wind2    = gegl_node_new_child (gegl,
                                   "operation", "gegl:wind",
                                   NULL);
@@ -187,7 +192,7 @@ static void attach (GeglOperation *operation)
                                   NULL);
 
   box    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:box-blur",
+                                  "operation", "gegl:box-blur", "radius", 2,
                                   NULL);
 
   box2    = gegl_node_new_child (gegl,
@@ -240,7 +245,6 @@ gegl_node_connect_from (over, "aux", box2, "output");
   gegl_operation_meta_redirect (operation, "median", median, "radius");
   gegl_operation_meta_redirect (operation, "median2", median2, "radius");
   gegl_operation_meta_redirect (operation, "alpha", alpha, "value");
-  gegl_operation_meta_redirect (operation, "box", box, "radius");
   gegl_operation_meta_redirect (operation, "box2", box2, "radius");
   gegl_operation_meta_redirect (operation, "bevel", bevel, "bevel2");
   gegl_operation_meta_redirect (operation, "bevel2", bevel2, "bevel2");

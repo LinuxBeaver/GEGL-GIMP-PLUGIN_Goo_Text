@@ -59,6 +59,6 @@ ninja -C build
 
 ## More Previews of this based Gimp Plugin
 
-![image preview](newgoo.png )
+![image preview](new_goo.png )
 
 ![image](https://github.com/LinuxBeaver/gegl-goo-on-text/assets/78667207/4471522e-7c42-444e-8ec9-e7e8190c6a3d)

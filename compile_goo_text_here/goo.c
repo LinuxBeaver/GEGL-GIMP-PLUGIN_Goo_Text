@@ -203,11 +203,11 @@ one of the few hidden operations that still remain. The direction number is call
                                   NULL);
 
   bevel = gegl_node_new_child (gegl,
-                                  "operation", "lb:bevel",
+                                  "operation", "lb:bevel", "bevel1", 90.0,
                                   NULL);
 
   bevel2 = gegl_node_new_child (gegl,
-                                  "operation", "lb:bevel",
+                                  "operation", "lb:bevel", "bevel1", 90.0,
                                   NULL);
 
   multiply = gegl_node_new_child (gegl,
@@ -268,6 +268,8 @@ gegl_op_class_init (GeglOpClass *klass)
     "reference-hash", "10gz1ak3aa10aavx65421xc254001b2ac",
     "description", _("Put goo on text using GEGL. It is a strong recommendation that both colors are similar or the same "
                      ""),
+    "gimp:menu-path", "<Image>/Filters/Text Styling",
+    "gimp:menu-label", _("Goo on Text..."),
     NULL);
 }
 

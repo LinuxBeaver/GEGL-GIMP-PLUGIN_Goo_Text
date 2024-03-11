@@ -156,11 +156,11 @@ static void attach (GeglOperation *operation)
 
 
   median    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:median-blur",
+                                  "operation", "gegl:median-blur", "abyss-policy",     GEGL_ABYSS_NONE,
                                   NULL);
 
   median2    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:median-blur",
+                                  "operation", "gegl:median-blur", "abyss-policy",     GEGL_ABYSS_NONE,
                                   NULL);
 
   cubism    = gegl_node_new_child (gegl,

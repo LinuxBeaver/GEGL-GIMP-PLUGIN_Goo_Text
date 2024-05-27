@@ -20,12 +20,12 @@
 
 
 
-/* 
+/*
 
 GEGL Graph of Goo Text to test without installing.
 
 
-id=1 
+id=1
 svg:dst-atop aux=[ ref=1 gegl:color-overlay value=#0b9500 cubism seed=13 tile-size=6 wind direction=bottom strength=80 median-blur radius=3 gimp:threshold-alpha value=0.09 box-blur radius=2  id=4 multiply aux=[ ref=4 lb:bevel ] ]
 
 
@@ -77,8 +77,8 @@ property_double (bevel, _("Bevel external Goo"), 15.0)
 
 
 property_double (alpha, _("Threshold Alpha"), 0.09)
-    value_range (00.1, 0.09)
-    ui_range    (-1, 2)
+    value_range (0.09, 0.1)
+    ui_range    (0.09, 0.1)
     description(_("Threshold Alpha's Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
     ui_meta     ("role", "output-extent")
 
@@ -176,7 +176,7 @@ static void attach (GeglOperation *operation)
                                   "operation", "lb:zzwind", "direction", 3,
                                   NULL);
 
-/* This is a hidden operation of mine that allows gegl:wind to go up to 500. Where in default it is locked at 100. This is 
+/* This is a hidden operation of mine that allows gegl:wind to go up to 500. Where in default it is locked at 100. This is
 one of the few hidden operations that still remain. The direction number is calling the wind to go down */
 
   wind2    = gegl_node_new_child (gegl,
@@ -223,13 +223,13 @@ one of the few hidden operations that still remain. The direction number is call
 
  gegl_node_link_many (input, atop, over, output, NULL);
  gegl_node_link_many (input, color, cubism, wind, median, alpha, multiply, box, NULL);
-gegl_node_connect (multiply, "aux", bevel, "output"); 
-gegl_node_connect (multiply2, "aux", bevel2, "output"); 
+gegl_node_connect (multiply, "aux", bevel, "output");
+gegl_node_connect (multiply2, "aux", bevel2, "output");
  gegl_node_link_many (alpha, bevel, NULL);
  gegl_node_link_many (alpha2, bevel2, NULL);
  gegl_node_link_many (atop, color2, light, cubism2, wind2, median2, alpha2, multiply2, box2, NULL);
-gegl_node_connect (atop, "aux", box, "output"); 
-gegl_node_connect (over, "aux", box2, "output"); 
+gegl_node_connect (atop, "aux", box, "output");
+gegl_node_connect (over, "aux", box2, "output");
 
 
   gegl_operation_meta_redirect (operation, "color", color, "value");
@@ -240,7 +240,6 @@ gegl_node_connect (over, "aux", box2, "output");
   gegl_operation_meta_redirect (operation, "tile_size", cubism, "tile-size");
   gegl_operation_meta_redirect (operation, "tile_saturation", cubism, "tile-saturation");
   gegl_operation_meta_redirect (operation, "tile_saturation2", cubism2, "tile-saturation");
-  gegl_operation_meta_redirect (operation, "direction", wind, "direction");
   gegl_operation_meta_redirect (operation, "strength", wind, "strength");
   gegl_operation_meta_redirect (operation, "median", median, "radius");
   gegl_operation_meta_redirect (operation, "median2", median2, "radius");

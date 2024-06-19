@@ -92,9 +92,9 @@ property_double (tile_size2, _("Goo on top size"), 5.2)
     value_range (4.8, 8.0)
     ui_meta     ("unit", "pixel-distance")
 
-property_double (tile_saturation2, _("Goo on top spread"), 1.1)
+property_double (tile_saturation2, _("Goo on top spread"), 1.0)
     description (_("Expand cubism tiles by this amount"))
-    value_range (1.0, 1.2)
+    value_range (0.8, 1.0)
 
 
 

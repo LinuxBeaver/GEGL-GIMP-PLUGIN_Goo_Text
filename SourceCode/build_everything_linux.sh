@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir LinuxBinaries
+
 for dir in *
 do
     if test -f "$dir/build_linux.sh"
@@ -9,7 +11,7 @@ do
     fi
 done
 
-  mkdir -p LinuxBinaries
+
   mv $(find . -name '*.so') LinuxBinaries/
 
 

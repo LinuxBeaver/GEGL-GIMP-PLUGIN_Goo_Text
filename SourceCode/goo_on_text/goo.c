@@ -108,7 +108,7 @@ property_double (bevelelevation, _("Bevel elevation dripping Goo"), 90.0)
 property_double (alpha, _("Threshold Alpha"), 0.09)
     value_range (0.09, 0.1)  
     ui_range    (0.09, 0.1)
-    description(_("Threshold Alpha's Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
+    description(_("Threshold Alphaꞌs Scalar threshold level (overridden if an auxiliary input buffer is provided.)."))
     ui_meta     ("role", "output-extent")
 
 
